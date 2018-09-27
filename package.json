@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@aspnet/signalr": "^1.0.3",
     "axios": "^0.18.0",
     "mongoose": "^5.2.17",
     "websocket": "^1.0.26",
