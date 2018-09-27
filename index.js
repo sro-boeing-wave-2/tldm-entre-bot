@@ -11,6 +11,7 @@ WebSocket = require('websocket').w3cwebsocket;
 var chatHubUrl = "http://172.23.239.243:7001/chat-hub/chat";
 //var chatApiUrl = "http://13.233.42.222/chat-api/chat/workspaces/workspacename/"
 var chatApiUrl = "http://172.23.239.243:7001/chat-api/chat/workspaces/workspacename/"
+var chatApiUrl1 = "http://172.23.239.243:7001/chat-api/chat/workspaces/getuser/"
 
 mongoose.connect(config.MONGODB_URL);
 
@@ -195,28 +196,46 @@ connection.on("SendMessageInChannel", (user, message) => {
       if (map.length != 0) {
         console.log("Found in channelid1");
         console.log(map);
-        var toSendMessage1 = {
-          messageBody: message.messageBody.split(" ")[1],
-          timestamp: new Date().toISOString(),
-          isStarred: true,
-          channelId: map[0].channelId2,
-          sender: {
-            id: "101010101010101010101111",
-            emailId: "entre.bot@gmail.com",
-            firstName: "Bot",
-            lastName: "User",
-            userId: "60681125-e117-4bb2-9287-eb840c4cg672"
-          }
-        }
-        axios.get(chatApiUrl + map[0].channelId2)
+        axios.get(chatApiUrl + map[0].channelId1)
           .then(response => {
             console.log("Getting workspace name");
             workspacename = response.data;
             console.log(workspacename);
-            console.log("Sent Message");
-            connection.invoke("sendMessageInChannel", 'entre.bot@gmail.com', toSendMessage1, map[0].channelId2, workspacename)
-              .then(console.log(toSendMessage1.messageBody))
-              .catch(err => console.error(err.toString()));
+            axios.get(chatApiUrl1 + response.data + "/" + user)
+              .then(response1 => {
+                console.log("Retrieving user name from email id");
+                console.log(response1.data)
+                var toSendMessage1 = {
+                  messageBody: message.messageBody.split(" ")[1],
+                  timestamp: new Date().toISOString(),
+                  isStarred: true,
+                  channelId: map[0].channelId2,
+                  sender: {
+                    id: "101010101010101010101111",
+                    emailId: "entre.bot@gmail.com",
+                    firstName: response1.data.firstName + " from " + response.data,
+                    lastName: "User",
+                    userId: "60681125-e117-4bb2-9287-eb840c4cg672"
+                  }
+                }
+                axios.get(chatApiUrl + map[0].channelId2)
+                  .then(response => {
+                    console.log("Getting workspace name");
+                    workspacename = response.data;
+                    console.log(workspacename);
+                    console.log("Sent Message");
+                    connection.invoke("sendMessageInChannel", 'entre.bot@gmail.com', toSendMessage1, map[0].channelId2, workspacename)
+                      .then(console.log(toSendMessage1.messageBody))
+                      .catch(err => console.error(err.toString()));
+                  })
+                  .catch(error => {
+                    console.log(error);
+                  });
+              })
+              .catch(error => {
+                console.log(error);
+              });
+
           })
           .catch(error => {
             console.log(error);
@@ -231,32 +250,56 @@ connection.on("SendMessageInChannel", (user, message) => {
       console.log(res);
       if (res.length != 0) {
         console.log("Found in channelid1");
-        var toSendMessage2 = {
-          messageBody: message.messageBody.slice(6),
-          timestamp: new Date().toISOString(),
-          isStarred: true,
-          channelId: res[0].channelId1,
-          sender: {
-            id: "101010101010101010101111",
-            emailId: "entre.bot@gmail.com",
-            firstName: "Bot",
-            lastName: "User",
-            userId: "60681125-e117-4bb2-9287-eb840c4cg672"
-          }
-        }
-        axios.get(chatApiUrl + res[0].channelId1)
+        axios.get(chatApiUrl + res[0].channelId2)
           .then(response => {
             console.log("Getting workspace name");
             workspacename = response.data;
             console.log(workspacename);
-            console.log("Sent Message");
-            connection.invoke("sendMessageInChannel", 'entre.bot@gmail.com', toSendMessage2, res[0].channelId1, workspacename)
-              .then(console.log(toSendMessage2.messageBody))
-              .catch(err => console.error(err.toString()));
+            axios.get(chatApiUrl1 + response.data + "/" + user)
+              .then(response1 => {
+                console.log("Retrieving user name from email id");
+                console.log(response1.data)
+                var toSendMessage2 = {
+                  messageBody: message.messageBody.slice(6),
+                  timestamp: new Date().toISOString(),
+                  isStarred: true,
+                  channelId: res[0].channelId1,
+                  sender: {
+                    id: "101010101010101010101111",
+                    emailId: "entre.bot@gmail.com",
+                    firstName: response1.data.firstName + " from " + response.data,
+                    lastName: "User",
+                    userId: "60681125-e117-4bb2-9287-eb840c4cg672"
+                  }
+                }
+                axios.get(chatApiUrl + res[0].channelId1)
+                  .then(response => {
+                    console.log("Getting workspace name");
+                    workspacename = response.data;
+                    console.log(workspacename);
+                    console.log("Sent Message");
+                    connection.invoke("sendMessageInChannel", 'entre.bot@gmail.com', toSendMessage2, res[0].channelId1, workspacename)
+                      .then(console.log(toSendMessage2.messageBody))
+                      .catch(err => console.error(err.toString()));
+                  })
+                  .catch(error => {
+                    console.log(error);
+
+                  })
+                  .catch(error => {
+                    console.log(error);
+                  });
+              })
+              .catch(error => {
+                console.log(error)
+              });
+
+
           })
           .catch(error => {
             console.log(error);
           });
+
       }
     });
   }
