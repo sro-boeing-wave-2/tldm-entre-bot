@@ -7,10 +7,15 @@ const axios = require('axios');
 XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 WebSocket = require('websocket').w3cwebsocket;
 
+//var chatHubUrl = "http://13.233.42.222/chat-hub/chat";
+var chatHubUrl = "http://172.23.239.243:7001/chat-hub/chat";
+//var chatApiUrl = "http://13.233.42.222/chat-api/chat/workspaces/workspacename/"
+var chatApiUrl = "http://172.23.239.243:7001/chat-api/chat/workspaces/workspacename/"
+
 mongoose.connect(config.MONGODB_URL);
 
 const connection = new signalR.HubConnectionBuilder()
-  .withUrl("http://13.233.42.222/connect/chat")
+  .withUrl(chatHubUrl)
   .configureLogging(signalR.LogLevel.Information)
   .build();
 
@@ -73,8 +78,7 @@ connection.on("SendMessageInChannel", (user, message) => {
 
             flag = 1;
             var workspacename;
-            axios.get('http://13.233.42.222/connect/api/chat/workspaces/workspacename/' + message.channelId)
-            //axios.get('http://172.23.238.206:7001/connect/api/chat/workspaces/workspacename/' + message.channelId)
+            axios.get(chatApiUrl + message.channelId)
               .then(response => {
                 console.log("Getting workspace name");
                 workspacename = response.data;
@@ -122,7 +126,7 @@ connection.on("SendMessageInChannel", (user, message) => {
               }
             }
             var workspacename;
-            axios.get('http://172.23.238.206:7001/connect/api/chat/workspaces/workspacename/' + message.channelId)
+            axios.get(chatApiUrl + message.channelId)
               .then(response => {
                 console.log("Getting workspace name");
                 workspacename = response.data;
@@ -166,7 +170,7 @@ connection.on("SendMessageInChannel", (user, message) => {
           }
         }
         var workspacename;
-        axios.get('http://172.23.238.206:7001/connect/api/chat/workspaces/workspacename/' + message.channelId)
+        axios.get(chatApiUrl + message.channelId)
           .then(response => {
             console.log("Getting workspace name");
             workspacename = response.data;
@@ -204,7 +208,7 @@ connection.on("SendMessageInChannel", (user, message) => {
             userId: "60681125-e117-4bb2-9287-eb840c4cg672"
           }
         }
-        axios.get('http://172.23.238.206:7001/connect/api/chat/workspaces/workspacename/' + map[0].channelId2)
+        axios.get(chatApiUrl + map[0].channelId2)
           .then(response => {
             console.log("Getting workspace name");
             workspacename = response.data;
@@ -240,7 +244,7 @@ connection.on("SendMessageInChannel", (user, message) => {
             userId: "60681125-e117-4bb2-9287-eb840c4cg672"
           }
         }
-        axios.get('http://172.23.238.206:7001/connect/api/chat/workspaces/workspacename/' + res[0].channelId1)
+        axios.get(chatApiUrl + res[0].channelId1)
           .then(response => {
             console.log("Getting workspace name");
             workspacename = response.data;
