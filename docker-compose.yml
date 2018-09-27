@@ -1,0 +1,13 @@
+version: "2"
+services:
+  web:
+    build: .
+    labels:
+      - "SERVICE_8080_NAME=entre-bot-service"
+      - "SERVICE_TAG=entre-bot-serviceTag"
+    # ports:
+    # - "8080:8080"
+    depends_on:
+    - mongo
+  mongo:
+    image: mongo
