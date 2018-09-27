@@ -11,8 +11,7 @@ mono: none
 before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  
-before_script:
-
+script:
+  - echo "No tests"
 after_success:
   - /bin/bash ./deploy.sh
