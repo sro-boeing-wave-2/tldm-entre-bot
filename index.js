@@ -7,11 +7,12 @@ const axios = require('axios');
 XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 WebSocket = require('websocket').w3cwebsocket;
 
-//var chatHubUrl = "http://13.233.42.222/chat-hub/chat";
-var chatHubUrl = "http://172.23.239.243:7001/chat-hub/chat";
-//var chatApiUrl = "http://13.233.42.222/chat-api/chat/workspaces/workspacename/"
-var chatApiUrl = "http://172.23.239.243:7001/chat-api/chat/workspaces/workspacename/"
-var chatApiUrl1 = "http://172.23.239.243:7001/chat-api/chat/workspaces/getuser/"
+var chatHubUrl = "http://13.233.42.222/chat-api/chat";
+//var chatHubUrl = "http://172.23.239.243:7001/chat-hub/chat";
+var chatApiUrl = "http://13.233.42.222/chat-api/api/chat/workspaces/workspacename/"
+//var chatApiUrl = "http://172.23.239.243:7001/chat-api/chat/workspaces/workspacename/"
+var chatApiUrl = "http://13.233.42.222/chat-api/api/chat/workspaces/getuser/"
+//var chatApiUrl1 = "http://172.23.239.243:7001/chat-api/chat/workspaces/getuser/"
 
 mongoose.connect(config.MONGODB_URL);
 
