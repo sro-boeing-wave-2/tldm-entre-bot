@@ -8,11 +8,11 @@ XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 WebSocket = require('websocket').w3cwebsocket;
 
 var chatHubUrl = "http://13.233.42.222/chat-api/chat";
-//var chatHubUrl = "http://172.23.239.243:7001/chat-hub/chat";
+//var chatHubUrl = "http://172.23.238.206:7001/chat-hub/chat";
 var chatApiUrl = "http://13.233.42.222/chat-api/api/chat/workspaces/workspacename/"
-//var chatApiUrl = "http://172.23.239.243:7001/chat-api/chat/workspaces/workspacename/"
-var chatApiUrl = "http://13.233.42.222/chat-api/api/chat/workspaces/getuser/"
-//var chatApiUrl1 = "http://172.23.239.243:7001/chat-api/chat/workspaces/getuser/"
+//var chatApiUrl = "http://172.23.238.206:7001/chat-api/chat/workspaces/workspacename/"
+var chatApiUrl1 = "http://13.233.42.222/chat-api/api/chat/workspaces/getuser/"
+//var chatApiUrl1 = "http://172.23.238.206:7001/chat-api/chat/workspaces/getuser/"
 
 mongoose.connect(config.MONGODB_URL);
 
@@ -72,8 +72,8 @@ connection.on("SendMessageInChannel", (user, message) => {
               sender: {
                 id: "101010101010101010101111",
                 emailId: "entre.bot@gmail.com",
-                firstName: "Bot",
-                lastName: "User",
+                firstName: "Entre",
+                lastName: "Bot",
                 userId: "60681125-e117-4bb2-9287-eb840c4cg672"
               }
             }
@@ -122,8 +122,8 @@ connection.on("SendMessageInChannel", (user, message) => {
               sender: {
                 id: "101010101010101010101111",
                 emailId: "entre.bot@gmail.com",
-                firstName: "Bot",
-                lastName: "User",
+                firstName: "Entre",
+                lastName: "Bot",
                 userId: "60681125-e117-4bb2-9287-eb840c4cg672"
               }
             }
@@ -166,8 +166,8 @@ connection.on("SendMessageInChannel", (user, message) => {
           sender: {
             id: "101010101010101010101111",
             emailId: "entre.bot@gmail.com",
-            firstName: "Bot",
-            lastName: "User",
+            firstName: "Entre",
+            lastName: "Bot",
             userId: "60681125-e117-4bb2-9287-eb840c4cg672"
           }
         }
@@ -215,7 +215,7 @@ connection.on("SendMessageInChannel", (user, message) => {
                     id: "101010101010101010101111",
                     emailId: "entre.bot@gmail.com",
                     firstName: response1.data.firstName + " from " + response.data,
-                    lastName: "User",
+                    lastName: "Bot",
                     userId: "60681125-e117-4bb2-9287-eb840c4cg672"
                   }
                 }
@@ -269,7 +269,7 @@ connection.on("SendMessageInChannel", (user, message) => {
                     id: "101010101010101010101111",
                     emailId: "entre.bot@gmail.com",
                     firstName: response1.data.firstName + " from " + response.data,
-                    lastName: "User",
+                    lastName: "Bot",
                     userId: "60681125-e117-4bb2-9287-eb840c4cg672"
                   }
                 }
@@ -303,5 +303,37 @@ connection.on("SendMessageInChannel", (user, message) => {
 
       }
     });
+  }
+
+  if (message.messageBody.startsWith('/help')) {
+
+    var toSendMessage = {
+      messageBody: "Need some directions on how to communicate between workspaces?? - Entre Bot is here!!! <br> Here are some commands that can help - <br> 1. /connect - Sends you a token to establish the connection with other workspace which you need to shareb with the other workspace, external of TLDM. <br> 2. /join token - Needs to be written by a person in a channel of other workspace to establish connection. <br> /send - To be written before the message for interworkspace communication.",
+      timestamp: new Date().toISOString(),
+      isStarred: true,
+      channelId: message.channelId1,
+      sender: {
+        id: "101010101010101010101111",
+        emailId: "entre.bot@gmail.com",
+        firstName: "Entre",
+        lastName: "Bot",
+        userId: "60681125-e117-4bb2-9287-eb840c4cg672"
+      }
+    }
+
+    axios.get(chatApiUrl + message.channelId)
+      .then(response => {
+        console.log("Getting workspace name");
+        workspacename = response.data;
+        console.log(workspacename);
+        console.log("Sent Message");
+        connection.invoke("sendMessageInChannel", 'entre.bot@gmail.com', toSendMessage, message.channelId1, workspacename)
+          .then(console.log(toSendMessage2.messageBody))
+          .catch(err => console.error(err.toString()));
+
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 });
