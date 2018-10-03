@@ -316,7 +316,7 @@ connection.on("SendMessageInChannel", (user, message) => {
   if (message.messageBody.startsWith('/help')) {
 
     var toSendMessage = {
-      messageBody: "<h4>Need some directions on how to communicate between workspaces? Entre Bot is here!!!</h4> <img src='https://images.typeform.com/images/nHRcqjdcxA/image/default' style='height: 150px; width: 150px; margin-left:30%'><br><h5> Here are some commands that can help - </h5><br>1. <b><i>/connect </i></b>- Sends you a token to establish the connection with other workspace which you need to share with the other workspace, external of TLDM. <br> 2. <b><i>/join [token] </i></b>- Needs to be written by a person in a channel of other workspace to establish connection. <br> 3. <b><i>/send</i></b> - To be written before the message for interworkspace communication.",
+      messageBody: "<h4>Need some directions on how to communicate between workspaces? Entre Bot is here!!!</h4> <img src='https://images.typeform.com/images/nHRcqjdcxA/image/default' style='height: 150px; width: 150px'><br><h5> Here are some commands that can help - </h5><br>1. <b><i>/connect </i></b>- Sends you a token to establish the connection with other workspace which you need to share with the other workspace, external of TLDM. <br> 2. <b><i>/join [token] </i></b>- Needs to be written by a person in a channel of other workspace to establish connection. <br> 3. <b><i>/send</i></b> - To be written before the message for interworkspace communication.",
       timestamp: new Date().toLocaleTimeString(),
       isStarred: true,
       channelId: message.channelId,
