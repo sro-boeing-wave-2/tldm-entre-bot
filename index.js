@@ -8,11 +8,11 @@ XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 WebSocket = require('websocket').w3cwebsocket;
 
 var chatHubUrl = "http://13.233.42.222/chat-api/chat";
-//var chatHubUrl = "http://172.23.238.206:7001/chat-hub/chat";
+//var chatHubUrl = "http://172.23.238.206:7001/chat-api/chat";
 var chatApiUrl = "http://13.233.42.222/chat-api/api/chat/workspaces/workspacename/"
-//var chatApiUrl = "http://172.23.238.206:7001/chat-api/chat/workspaces/workspacename/"
+//var chatApiUrl = "http://172.23.238.206:7001/chat-api/api/chat/workspaces/workspacename/"
 var chatApiUrl1 = "http://13.233.42.222/chat-api/api/chat/workspaces/getuser/"
-//var chatApiUrl1 = "http://172.23.238.206:7001/chat-api/chat/workspaces/getuser/"
+//var chatApiUrl1 = "http://172.23.238.206:7001/chat-api/api/chat/workspaces/getuser/"
 
 mongoose.connect(config.MONGODB_URL);
 
@@ -73,8 +73,8 @@ connection.on("SendMessageInChannel", (user, message) => {
           if (obj.channelId1 == message.channelId) {
             console.log("Found existing in DB!")
             var message1 = {
-              messageBody: "You have already registered for the token!!! Here's the token - " + obj._id,
-              timestamp: new Date().toISOString(),
+              messageBody: "You have already registered for the token!!!<br><img src = 'https://eadvice.co/wp-content/uploads/2018/01/animat-cube-color.gif' style='margin-left: 30%; height: 100px; width: 100px'> <br>Here's the token - <b>" + obj._id + "</b>",
+              timestamp: new Date().toLocaleTimeString(),
               isStarred: true,
               channelId: message.channelId,
               sender: {
@@ -123,8 +123,8 @@ connection.on("SendMessageInChannel", (user, message) => {
             console.log(token);
 
             toSendMessage = {
-              messageBody: "Here's your token " + token + " . Please share it with the user you want to talk to :)",
-              timestamp: new Date().toISOString(),
+              messageBody: "Here's your token <b>" + token + "</b> .<br><img src='https://www.trendmicro.com/azure/wp-content/uploads/2016/05/TM_Lock_Sequence_300x300_Looping.gif' style='height:100px; width:100px; margin-left: 30%'> <br>Please share it with the user you want to talk to :)",
+              timestamp: new Date().toLocaleTimeString(),
               isStarred: true,
               channelId: message.channelId,
               sender: {
@@ -167,8 +167,8 @@ connection.on("SendMessageInChannel", (user, message) => {
         console.log("DB Updated");
         console.log(response);
         toSendMessage = {
-          messageBody: "Interworkspace connection successfull!",
-          timestamp: new Date().toISOString(),
+          messageBody: "<img src = 'https://melbournechapter.net/images/vector-gif-mail-1.gif' style='height: 100px; width: 100px'; margin-left: '30%'>Interworkspace connection successfull!",
+          timestamp: new Date().toLocaleTimeString(),
           isStarred: true,
           channelId: message.channelId,
           sender: {
@@ -216,14 +216,14 @@ connection.on("SendMessageInChannel", (user, message) => {
                 console.log(response1.data)
                 var toSendMessage1 = {
                   messageBody: message.messageBody.split(" ")[1],
-                  timestamp: new Date().toISOString(),
+                  timestamp: new Date().toLocaleTimeString(),
                   isStarred: true,
                   channelId: map[0].channelId2,
                   sender: {
                     id: "101010101010101010101111",
                     emailId: "entre.bot@gmail.com",
                     firstName: response1.data.firstName + " from " + response.data,
-                    lastName: "Bot",
+                    lastName: "",
                     userId: "60681125-e117-4bb2-9287-eb840c4cg672"
                   }
                 }
@@ -270,14 +270,14 @@ connection.on("SendMessageInChannel", (user, message) => {
                 console.log(response1.data)
                 var toSendMessage2 = {
                   messageBody: message.messageBody.slice(6),
-                  timestamp: new Date().toISOString(),
+                  timestamp: new Date().toLocaleTimeString(),
                   isStarred: true,
                   channelId: res[0].channelId1,
                   sender: {
                     id: "101010101010101010101111",
                     emailId: "entre.bot@gmail.com",
                     firstName: response1.data.firstName + " from " + response.data,
-                    lastName: "Bot",
+                    lastName: "",
                     userId: "60681125-e117-4bb2-9287-eb840c4cg672"
                   }
                 }
@@ -316,10 +316,10 @@ connection.on("SendMessageInChannel", (user, message) => {
   if (message.messageBody.startsWith('/help')) {
 
     var toSendMessage = {
-      messageBody: "<h4>Need some directions on how to communicate between workspaces? Entre Bot is here!!!</h4> <img src='https://ubisafe.org/images/bots-clipart-cool-robot-4.png' style='height: 100px; width: 70px; margin-left:50%'><br><h5> Here are some commands that can help - </h5><br>1. <b><i>/connect </i></b>- Sends you a token to establish the connection with other workspace which you need to share with the other workspace, external of TLDM. <br> 2. <b><i>/join [token] </i></b>- Needs to be written by a person in a channel of other workspace to establish connection. <br> 3. <b><i>/send</i></b> - To be written before the message for interworkspace communication.",
-      timestamp: new Date().toISOString(),
+      messageBody: "<h4>Need some directions on how to communicate between workspaces? Entre Bot is here!!!</h4> <img src='https://images.typeform.com/images/nHRcqjdcxA/image/default' style='height: 150px; width: 150px; margin-left:30%'><br><h5> Here are some commands that can help - </h5><br>1. <b><i>/connect </i></b>- Sends you a token to establish the connection with other workspace which you need to share with the other workspace, external of TLDM. <br> 2. <b><i>/join [token] </i></b>- Needs to be written by a person in a channel of other workspace to establish connection. <br> 3. <b><i>/send</i></b> - To be written before the message for interworkspace communication.",
+      timestamp: new Date().toLocaleTimeString(),
       isStarred: true,
-      channelId: message.channelId1,
+      channelId: message.channelId,
       sender: {
         id: "101010101010101010101111",
         emailId: "entre.bot@gmail.com",
@@ -335,7 +335,7 @@ connection.on("SendMessageInChannel", (user, message) => {
         workspacename = response.data;
         console.log(workspacename);
         console.log("Sent Message");
-        connection.invoke("sendMessageInChannel", 'entre.bot@gmail.com', toSendMessage, message.channelId1, workspacename)
+        connection.invoke("sendMessageInChannel", 'entre.bot@gmail.com', toSendMessage, message.channelId, workspacename)
           .then(console.log(toSendMessage.messageBody))
           .catch(err => console.error(err.toString()));
 
