@@ -33,12 +33,20 @@ connection.start()
   })
   .catch(err => console.error(err.toString()));
 
+connection.onclose(function () {
+  console.log("DISCONNECTED!!");
+  process.exit();
+
+})
+
 connection.on("SendToAllconnid", (activeusers) => {
 });
 
 connection.on("ReceiveUserChannels", (listofUserChannels, emailId) => {
+  console.log("Receiving...")
 
   if (emailId == "entre.bot@gmail.com") {
+    console.log("Received list of user channels")
     console.log(listofUserChannels);
     listofUserChannels.forEach(channelId => {
       connection.invoke('joinChannel', channelId)
@@ -308,7 +316,7 @@ connection.on("SendMessageInChannel", (user, message) => {
   if (message.messageBody.startsWith('/help')) {
 
     var toSendMessage = {
-      messageBody: "Need some directions on how to communicate between workspaces?? - Entre Bot is here!!! <br> Here are some commands that can help - <br> 1. /connect - Sends you a token to establish the connection with other workspace which you need to shareb with the other workspace, external of TLDM. <br> 2. /join token - Needs to be written by a person in a channel of other workspace to establish connection. <br> /send - To be written before the message for interworkspace communication.",
+      messageBody: "<h4>Need some directions on how to communicate between workspaces? Entre Bot is here!!!</h4> <img src='https://ubisafe.org/images/bots-clipart-cool-robot-4.png' style='height: 100px; width: 70px; margin-left:50%'><br><h5> Here are some commands that can help - </h5><br>1. <b><i>/connect </i></b>- Sends you a token to establish the connection with other workspace which you need to share with the other workspace, external of TLDM. <br> 2. <b><i>/join [token] </i></b>- Needs to be written by a person in a channel of other workspace to establish connection. <br> 3. <b><i>/send</i></b> - To be written before the message for interworkspace communication.",
       timestamp: new Date().toISOString(),
       isStarred: true,
       channelId: message.channelId1,
@@ -328,7 +336,7 @@ connection.on("SendMessageInChannel", (user, message) => {
         console.log(workspacename);
         console.log("Sent Message");
         connection.invoke("sendMessageInChannel", 'entre.bot@gmail.com', toSendMessage, message.channelId1, workspacename)
-          .then(console.log(toSendMessage2.messageBody))
+          .then(console.log(toSendMessage.messageBody))
           .catch(err => console.error(err.toString()));
 
       })
