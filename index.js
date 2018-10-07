@@ -215,7 +215,7 @@ connection.on("SendMessageInChannel", (user, message) => {
                 console.log("Retrieving user name from email id");
                 console.log(response1.data)
                 var toSendMessage1 = {
-                  messageBody: message.messageBody.split(" ")[1],
+                  messageBody: message.messageBody.slice(6),
                   timestamp: new Date().toLocaleTimeString(),
                   isStarred: true,
                   channelId: map[0].channelId2,
